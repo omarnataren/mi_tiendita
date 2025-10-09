@@ -1,0 +1,86 @@
+/* Fondo con imagen desenfocada */
+.login-container {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background: url("https://i.ibb.co/NtKJfFS/supermercado.jpg") no-repeat center center/cover; */
+  filter: blur(2px);
+  position: relative;
+}
+
+/* Caja blanca del login */
+.login-box {
+  position: absolute;
+  background: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+  text-align: center;
+  width: 350px;
+}
+
+/* Título */
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Banner rosa tipo tienda */
+.store-banner {
+  height: 30px;
+  background: repeating-linear-gradient(
+    90deg,
+    #ff7fa8,
+    #ff7fa8 40px,
+    #fff 40px,
+    #fff 80px
+  );
+  border-radius: 0 0 12px 12px;
+  margin-bottom: 25px;
+}
+
+/* Inputs */
+.input-group {
+  display: flex;
+  align-items: center;
+  margin: 15px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px;
+  background: #f9f9f9;
+}
+
+.input-group input {
+  border: none;
+  outline: none;
+  flex: 1;
+  padding: 8px;
+  background: transparent;
+}
+
+.icon {
+  margin-right: 10px;
+  color: #ff7fa8;
+  font-size: 18px;
+}
+
+/* Botón */
+.btn-login {
+  background: #ff7fa8;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  width: 100%;
+  cursor: pointer;
+  margin-top: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.btn-login:hover {
+  background: #ff5e8d;
+}
