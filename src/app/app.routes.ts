@@ -4,5 +4,6 @@ import { Login } from '../pages/login/login';
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full'},
     { path: 'ventas', component: Ventas },
+    { path: 'login', component: Login}
     // { path: '**', redirectTo: 'ventas', pathMatch: 'full' }
 ];
