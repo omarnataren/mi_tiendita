@@ -1,0 +1,94 @@
+/* Contenedor general */
+.contenedor-proveedores {
+  background-color: #fff6f6;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+}
+
+/* Encabezado con título y botones */
+.encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.encabezado h3 {
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #222;
+}
+
+.acciones {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.buscar {
+  padding: 8px 14px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background-color: white;
+  outline: none;
+  transition: 0.3s;
+}
+
+.buscar:focus {
+  border-color: #ffa1a1;
+  box-shadow: 0 0 4px #ffd2d2;
+}
+
+.agregar {
+  background-color: #ff7b7b;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.agregar:hover {
+  background-color: #ff4e4e;
+}
+
+/* Tabla */
+.tabla-proveedores {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.tabla-proveedores thead {
+  background-color: #ffe9e9;
+  font-weight: 600;
+}
+
+.tabla-proveedores th,
+.tabla-proveedores td {
+  padding: 12px 16px;
+  text-align: left;
+}
+
+.tabla-proveedores tbody tr {
+  border-bottom: 1px solid #f1dada;
+  transition: background-color 0.3s;
+}
+
+.tabla-proveedores tbody tr:hover {
+  background-color: #fff1f1;
+}
+
+/* Quita márgenes o scrolls innecesarios */
+body {
+  background-color: #fdeeee;
+  margin: 0;
+  padding: 20px;
+}

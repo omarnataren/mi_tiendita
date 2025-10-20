@@ -1,0 +1,43 @@
+.content {
+  padding: 20px;
+}
+
+.card {
+  background: #fff0f0;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.ventas-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ventas-table th,
+.ventas-table td {
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+.acciones {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.btn {
+  background-color: #f8a5a5;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 15px;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.btn:hover {
+  background-color: #ff7b7b;
+}

@@ -1,8 +1,11 @@
+
+<div class="app-layout">
 @if (!isLoginPage) {
   <app-navbar></app-navbar>
 }
 
-<router-outlet></router-outlet>
-
-<router-outlet></router-outlet>
+  <div class="main-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>
 

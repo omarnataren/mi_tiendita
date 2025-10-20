@@ -1,0 +1,28 @@
+<div class="ticket-container">
+  <div class="ticket">
+    <h2 class="ticket-title">TICKET</h2>
+
+    <div class="ticket-table">
+      <div class="ticket-header">
+        <span>PRODUCTO </span>
+        <span>PRECIO </span>
+      </div>
+
+      <div class="ticket-body">
+        @for(producto of productos;track $index) {
+        <div class="ticket-item">
+          <span>{{ producto.nombre }}</span>
+          <span>${{ producto.precio.toFixed(2) }}</span>
+        </div>
+        }
+      </div>
+
+      <div class="ticket-footer">
+        <span>TOTAL:</span>
+        <span>${{ calcularTotal().toFixed(2) }}</span>
+      </div>
+    </div>
+  </div>
+
+  <button class="btn-imprimir" (click)="imprimirTicket()">IMPRIMIR</button>
+</div>

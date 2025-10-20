@@ -1,1 +1,33 @@
-<p>ventas works!</p>
+<div class="content">
+  <h3>Tabla</h3>
+
+  <div class="card">
+    <h4>Productos agregados</h4>
+    <table class="ventas-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre del producto</th>
+          <th>Cantidad</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(v of ventas; track $index) {
+        <tr>
+          <td>{{ v.id }}</td>
+          <td>{{ v.producto }}</td>
+          <td>${{ v.cantidad }}</td>
+          <td>${{ v.total }}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="acciones">
+    <button class="btn">Agregar productos</button>
+    <button class="btn">Limpiar</button>
+    <button class="btn" routerLink="/ticket">Ticket +</button>
+  </div>
+</div>

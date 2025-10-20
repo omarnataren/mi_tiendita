@@ -6,9 +6,9 @@ interface menuItem {
 }
 @Component({
   selector: 'app-navbar',
-  imports: [ RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './navbar.html',
-  styleUrl: './navbar.css'
+  styleUrl: './navbar.css',
 })
 export class Navbar {
   menuList: menuItem[] = [
@@ -16,7 +16,7 @@ export class Navbar {
     { name: 'PRODUCTOS', route: '/productos' },
     { name: 'USUARIOS', route: '/usuarios' },
     { name: 'MOVIMIENTOS', route: '/movimientos' },
-    { name: 'PROVEEDORES', route: '/proveedores' },
-    { name: 'HISTORIAL', route: '/historial' }
+    { name: 'PROVEEDORES', route: 'proveedores' },
+    { name: 'HISTORIAL', route: '/historial' },
   ];
 }
