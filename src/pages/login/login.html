@@ -1,1 +1,28 @@
-<p>login works!</p>
+<div class="login-container">
+  <div class="login-box">
+    <!-- Título -->
+    <h1 class="title">Mi Tiendita</h1>
+
+    <!-- Banner tipo toldo -->
+    <div class="store-banner"></div>
+
+    <!-- Formulario de inicio de sesión -->
+    <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+      
+      <!-- Campo usuario -->
+      <div class="input-group">
+        <i class="fa fa-user icon"></i>
+        <input type="text" name="usuario" placeholder="Usuario" ngModel required />
+      </div>
+
+      <!-- Campo contraseña -->
+      <div class="input-group">
+        <i class="fa fa-lock icon"></i>
+        <input type="password" name="password" placeholder="Contraseña" ngModel required />
+      </div>
+
+      <!-- Botón -->
+      <button type="submit" class="btn-login">Iniciar Sesión</button>
+    </form>
+  </div>
+</div>
