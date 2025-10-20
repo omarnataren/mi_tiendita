@@ -1,23 +1,27 @@
 <div class="login-container">
   <div class="login-box">
-    <h1 class="title">MI TIENDITA</h1>
+    <!-- Título -->
+    <h1 class="title">Mi Tiendita</h1>
+
+    <!-- Banner tipo toldo -->
     <div class="store-banner"></div>
-    
-    <form>
+
+    <!-- Formulario de inicio de sesión -->
+    <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+      
+      <!-- Campo usuario -->
       <div class="input-group">
-        <span class="icon">
-          <i class="fas fa-user"></i>
-        </span>
-        <input type="text" placeholder="Usuario" />
+        <i class="fa fa-user icon"></i>
+        <input type="text" name="usuario" placeholder="Usuario" ngModel required />
       </div>
 
+      <!-- Campo contraseña -->
       <div class="input-group">
-        <span class="icon">
-          <i class="fas fa-lock"></i>
-        </span>
-        <input type="password" placeholder="Contraseña" />
+        <i class="fa fa-lock icon"></i>
+        <input type="password" name="password" placeholder="Contraseña" ngModel required />
       </div>
 
+      <!-- Botón -->
       <button type="submit" class="btn-login">Iniciar Sesión</button>
     </form>
   </div>
