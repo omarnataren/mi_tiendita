@@ -1,0 +1,91 @@
+<div class="contenedor-tabla">
+  <div class="encabezado">
+    <h3>Todos los Usuarios</h3>
+    <div class="acciones">
+      <div class="buscar-container">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Buscar..." class="buscar" />
+      </div>
+      <button class="agregar" (click)="abrirModal()">
+        <i class="fas fa-plus"></i> Agregar
+      </button>
+    </div>
+  </div>
+
+  <table class="tabla-generica">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Rol</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(usuario of usuarios; track $index) {
+        <tr>
+          <td>{{ usuario.id }}</td>
+          <td>{{ usuario.nombre }}</td>
+          <td>{{ usuario.email }}</td>
+          <td>{{ usuario.rol }}</td>
+          <td class="acciones-column">
+            <div class="acciones-fila">⋮</div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="paginacion">
+    <span>Rows per page: 8</span>
+    <span>1-8 of 1234</span>
+    <div class="flechas">
+      <button>‹</button>
+      <button>›</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para agregar usuario -->
+@if(mostrarModal) {
+  <div class="modal-overlay" (click)="cerrarModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <button class="btn-cerrar" (click)="cerrarModal()">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <h2 class="modal-titulo">NUEVO USUARIO</h2>
+
+      <form class="modal-form">
+        <div class="form-row">
+          <label>Nombre completo</label>
+          <input type="text" class="input-modal" />
+        </div>
+
+        <div class="form-row">
+          <label>Email</label>
+          <input type="email" class="input-modal" />
+        </div>
+
+        <div class="form-row">
+          <label>Contraseña</label>
+          <input type="password" class="input-modal" />
+        </div>
+
+        <div class="form-row">
+          <label>Rol</label>
+          <select class="input-modal">
+            <option value="admin">Administrador</option>
+            <option value="vendedor">Vendedor</option>
+            <option value="almacen">Almacén</option>
+          </select>
+        </div>
+
+        <button type="button" class="btn-guardar" (click)="guardarUsuario()">
+          GUARDAR USUARIO
+        </button>
+      </form>
+    </div>
+  </div>
+}

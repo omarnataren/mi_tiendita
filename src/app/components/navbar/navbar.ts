@@ -12,11 +12,10 @@ interface menuItem {
 })
 export class Navbar {
   menuList: menuItem[] = [
-    { name: 'VENTAS', route: '/ventas' },
     { name: 'PRODUCTOS', route: '/productos' },
     { name: 'USUARIOS', route: '/usuarios' },
     { name: 'MOVIMIENTOS', route: '/movimientos' },
-    { name: 'PROVEEDORES', route: 'proveedores' },
+    { name: 'PROVEEDORES', route: '/proveedores' },
     { name: 'HISTORIAL', route: '/historial' },
   ];
 }

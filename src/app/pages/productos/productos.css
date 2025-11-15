@@ -1,4 +1,4 @@
-/* Estilos específicos para proveedores (los generales están en tablas.css) */
+/* Estilos específicos para productos (los generales están en tablas.css) */
 
 /* ============= MODAL ============= */
 .modal-overlay {
@@ -36,6 +36,7 @@
   to { transform: translateY(0); opacity: 1; }
 }
 
+/* Botón cerrar X */
 .btn-cerrar {
   position: absolute;
   top: 20px;
@@ -59,6 +60,7 @@
   color: #ff7b7b;
 }
 
+/* Título del modal */
 .modal-titulo {
   text-align: center;
   font-size: 1.8rem;
@@ -68,6 +70,7 @@
   letter-spacing: 1px;
 }
 
+/* Formulario */
 .modal-form {
   display: flex;
   flex-direction: column;
@@ -103,6 +106,11 @@
   box-shadow: 0 0 0 3px rgba(255, 123, 123, 0.1);
 }
 
+.input-corto {
+  max-width: 200px;
+}
+
+/* Botón guardar */
 .btn-guardar {
   margin-top: 20px;
   padding: 14px 40px;

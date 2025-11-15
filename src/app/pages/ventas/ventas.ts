@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { Ticket } from '../ticket/ticket';
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-ventas',
-  imports: [Ticket, RouterLink],
+  imports: [RouterLink],
   templateUrl: './ventas.html',
   styleUrl: './ventas.css',
 })
