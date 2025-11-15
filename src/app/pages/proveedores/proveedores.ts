@@ -34,4 +34,19 @@ export class Proveedores {
       direccion: 'Boulevard de los Sueños Rotos 789',
     },
   ];
+
+  mostrarModal = false;
+
+  abrirModal() {
+    this.mostrarModal = true;
+  }
+
+  cerrarModal() {
+    this.mostrarModal = false;
+  }
+
+  guardarProveedor() {
+    console.log('Guardando proveedor...');
+    this.cerrarModal();
+  }
 }

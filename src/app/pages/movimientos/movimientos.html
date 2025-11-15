@@ -1,0 +1,103 @@
+<div class="contenedor-tabla">
+  <div class="encabezado">
+    <h3>Todos los Movimientos</h3>
+    <div class="acciones">
+      <div class="buscar-container">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Buscar..." class="buscar" />
+      </div>
+      <button class="agregar" (click)="abrirModal()">
+        <i class="fas fa-plus"></i> Agregar
+      </button>
+    </div>
+  </div>
+
+  <table class="tabla-generica">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Producto ID</th>
+        <th>Tipo</th>
+        <th>Cantidad</th>
+        <th>Fecha</th>
+        <th>Detalle</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(movimiento of movimientos; track $index) {
+        <tr>
+          <td>{{ movimiento.movimientoId }}</td>
+          <td>{{ movimiento.productoId }}</td>
+          <td>
+            <span class="badge" [ngClass]="movimiento.tipo === 'Entrada' ? 'badge-entrada' : 'badge-salida'">
+              {{ movimiento.tipo }}
+            </span>
+          </td>
+          <td>{{ movimiento.cantidad }}</td>
+          <td>{{ movimiento.fecha }}</td>
+          <td>{{ movimiento.detalle }}</td>
+          <td class="acciones-column">
+            <div class="acciones-fila">⋮</div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="paginacion">
+    <span>Rows per page: 8</span>
+    <span>1-8 of 1234</span>
+    <div class="flechas">
+      <button>‹</button>
+      <button>›</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para agregar movimiento -->
+@if(mostrarModal) {
+  <div class="modal-overlay" (click)="cerrarModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <button class="btn-cerrar" (click)="cerrarModal()">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <h2 class="modal-titulo">NUEVO MOVIMIENTO</h2>
+
+      <form class="modal-form">
+        <div class="form-row">
+          <label>Producto ID</label>
+          <input type="text" class="input-modal" />
+        </div>
+
+        <div class="form-row">
+          <label>Tipo de movimiento</label>
+          <select class="input-modal">
+            <option value="Entrada">Entrada</option>
+            <option value="Salida">Salida</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label>Cantidad</label>
+          <input type="number" class="input-modal" />
+        </div>
+
+        <div class="form-row">
+          <label>Fecha</label>
+          <input type="date" class="input-modal" />
+        </div>
+
+        <div class="form-row">
+          <label>Detalle</label>
+          <input type="text" class="input-modal" />
+        </div>
+
+        <button type="button" class="btn-guardar" (click)="guardarMovimiento()">
+          GUARDAR MOVIMIENTO
+        </button>
+      </form>
+    </div>
+  </div>
+}

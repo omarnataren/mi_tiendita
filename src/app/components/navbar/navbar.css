@@ -14,8 +14,7 @@
 .sidebar-header {
   padding: 20px;
   text-align: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.1);
+  /* Sin border ni background para que se vea el gradiente uniforme */
 }
 
 .store-icon {
@@ -114,14 +113,34 @@
   pointer-events: none;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .sidebar {
-    width: 180px;
-  }
-  
-  .nav-link {
-    font-size: 0.8rem;
-    padding: 10px 15px;
-  }
+/* Contenedor del botón agregar venta */
+.add-sale-container {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 40px);
+}
+
+.add-sale-btn {
+  display: block;
+  padding: 10px 12px;
+  background: #fff6f6;
+  color: #333;
+  text-decoration: none;
+  text-align: center;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 2px solid #fff6f6;
+}
+
+.add-sale-btn:hover {
+  background: rgb(255, 35, 226);
+  color:#fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgb(255, 35, 226);
+  border-color: rgb(255, 35, 226);
 }

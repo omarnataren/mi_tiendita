@@ -1,6 +1,6 @@
-/* Estilos específicos para proveedores (los generales están en tablas.css) */
+/* Estilos específicos para usuarios (los generales están en tablas.css) */
 
-/* ============= MODAL ============= */
+/* ============= MODAL AGREGAR USUARIO ============= */
 .modal-overlay {
   position: fixed;
   top: 0;

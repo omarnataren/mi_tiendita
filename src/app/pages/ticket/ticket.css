@@ -67,10 +67,42 @@
 }
 
 @media print {
-  .btn-imprimir {
-    display: none;
+  /* Ocultar todo excepto el ticket */
+  body * {
+    visibility: hidden;
   }
-  body {
+  
+  .ticket-container,
+  .ticket-container * {
+    visibility: visible;
+  }
+  
+  .ticket-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: auto;
     background: white;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .ticket {
+    width: 80mm;
+    max-width: 80mm;
+    margin: 0 auto;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 10px;
+  }
+  
+  .btn-imprimir {
+    display: none !important;
+  }
+  
+  /* Ocultar navbar y otros elementos */
+  app-navbar {
+    display: none !important;
   }
 }

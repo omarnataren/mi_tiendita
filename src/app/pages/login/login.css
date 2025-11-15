@@ -1,12 +1,14 @@
 /* === Fondo con imagen desenfocada === */
 .login-container {
-  height: 100vh;
+  min-height: 94vh;
+  height: 94vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: url("../../assets/images/fondocarrito.png") no-repeat center center/cover;
+  background: url("../../../assets/images/fondocarrito.png") no-repeat center center/cover;
   filter: blur(0px);
   position: relative;
+  overflow: hidden;
 }
 
 /* === Caja blanca del login === */
@@ -33,11 +35,14 @@
 
 /* === Banner tipo toldo rosa === */
 .store-banner {
-  height:45px;
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%) scale(2.5);
+  height: 45px;
   width: 280px;
-  /* margin: 0 auto 40px auto; */
-  background: url("../../assets/images/lona2.png") no-repeat center center/contain;
-  transform: scale(1.65);
+  background: url("../../../assets/images/lona2.png") no-repeat center center/contain;
+  z-index: 2;
 }
 
 /* === Inputs con íconos === */
@@ -57,7 +62,7 @@
 }
 
 .input-group i {
-  color: #ff7fa8;
+  color: #f8a5a5;
   font-size: 18px;
   margin-right: 10px;
 }
@@ -74,7 +79,7 @@
 
 /* === Botón === */
 .btn-login {
-  background: #ff7fa8;
+  background: #f8a5a5;
   color: white;
   border: none;
   padding: 14px;
@@ -88,7 +93,7 @@
 }
 
 .btn-login:hover {
-  background: #ff5e8d;
+  background: #ff7b7b;
   transform: translateY(-1px);
   box-shadow: 0 3px 8px rgba(255, 126, 150, 0.4);
 }

@@ -1,0 +1,93 @@
+<div class="contenedor-tabla">
+  <div class="encabezado">
+    <h3>Todos los Productos</h3>
+    <div class="acciones">
+      <div class="buscar-container">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Buscar..." class="buscar" />
+      </div>
+      <button class="agregar" (click)="abrirModal()">
+        <i class="fas fa-plus"></i> Agregar
+      </button>
+    </div>
+  </div>
+
+  <table class="tabla-generica">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Categoría</th>
+        <th>Precio Compra</th>
+        <th>Precio venta</th>
+        <th>Stock</th>
+        <th>Proveedor</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for(producto of productos; track $index) {
+        <tr>
+          <td>{{ producto.id }}</td>
+          <td>{{ producto.nombre }}</td>
+          <td>{{ producto.descripcion }}</td>
+          <td>{{ producto.categoria }}</td>
+          <td>{{ producto.precioCompra }}</td>
+          <td>{{ producto.precioVenta }}</td>
+          <td>{{ producto.stock }}</td>
+          <td>{{ producto.proveedor }}</td>
+          <td class="acciones-column">
+            <div class="acciones-fila">⋮</div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <div class="paginacion">
+    <span>Rows per page: 8</span>
+    <span>1-8 of 1234</span>
+    <div class="flechas">
+      <button>‹</button>
+      <button>›</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para agregar producto -->
+@if(mostrarModal) {
+  <div class="modal-overlay" (click)="cerrarModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <!-- Botón cerrar X -->
+      <button class="btn-cerrar" (click)="cerrarModal()">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <!-- Título del modal -->
+      <h2 class="modal-titulo">NUEVO PRODUCTO</h2>
+
+      <!-- Formulario -->
+      <form class="modal-form">
+        <div class="form-row">
+          <label>Nombre del producto</label>
+          <input type="text" class="input-modal" />
+        </div>
+
+        <div class="form-row">
+          <label>Precio</label>
+          <input type="text" class="input-modal input-corto" />
+        </div>
+
+        <div class="form-row">
+          <label>Categoría</label>
+          <input type="text" class="input-modal" />
+        </div>
+
+        <button type="button" class="btn-guardar" (click)="guardarProducto()">
+          GUARDAR PRODUCTO
+        </button>
+      </form>
+    </div>
+  </div>
+}
