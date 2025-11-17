@@ -1,52 +1,108 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-proveedores',
-  imports: [],
   templateUrl: './proveedores.html',
-  styleUrl: './proveedores.css',
+  styleUrls: ['./proveedores.css'],
+  standalone: true,
+  imports: [CommonModule, FormsModule],
 })
 export class Proveedores {
   proveedores = [
     {
       id_prov: 1,
-      nombre: 'Proveedor A',
-      contacto: '1234567890',
-      telefono: '1234567',
-      email: 'Aaaa@gmail.com',
-      direccion: 'Calle Falsa 123',
+      nombre: 'Proveedor 1',
+      contacto: 'Juan Pérez',
+      telefono: '555-1234',
+      email: 'prov1@mail.com',
+      direccion: 'Calle 1',
     },
     {
       id_prov: 2,
-      nombre: 'Proveedor B',
-      contacto: '0987654321',
-      telefono: '7654321',
-      email: 'Abcd@gmail.com',
-      direccion: 'Avenida Siempre Viva 456',
-    },
-    {
-      id_prov: 3,
-      nombre: 'Proveedor C',
-      contacto: '1122334455',
-      telefono: '1122334',
-      email: 'abcdgf@gmail.com',
-      direccion: 'Boulevard de los Sueños Rotos 789',
+      nombre: 'Proveedor 2',
+      contacto: 'Ana López',
+      telefono: '555-5678',
+      email: 'prov2@mail.com',
+      direccion: 'Calle 2',
     },
   ];
 
+  proveedorActual = {
+    id_prov: '',
+    nombre: '',
+    contacto: '',
+    telefono: '',
+    email: '',
+    direccion: '',
+  };
+
   mostrarModal = false;
+  mostrarModalEditar = false;
+
+  menuAbierto: number | null = null;
+
+  abrirMenu(id: number) {
+    this.menuAbierto = this.menuAbierto === id ? null : id;
+  }
 
   abrirModal() {
+    this.proveedorActual = {
+      id_prov: '',
+      nombre: '',
+      contacto: '',
+      telefono: '',
+      email: '',
+      direccion: '',
+    };
     this.mostrarModal = true;
+  }
+
+  abrirModalEditar(prov: any) {
+    this.proveedorActual = { ...prov };
+    this.mostrarModalEditar = true;
   }
 
   cerrarModal() {
     this.mostrarModal = false;
+    this.mostrarModalEditar = false;
   }
 
+  // ================================
+  //       🔥 AGREGAR PROVEEDOR
+  // ================================
   guardarProveedor() {
-    console.log('Guardando proveedor...');
+    const nuevo = {
+      ...this.proveedorActual,
+      id_prov: Number(this.proveedorActual.id_prov), // <-- 🔥 ARREGLO CLAVE
+    };
+
+    this.proveedores.push(nuevo);
+
     this.cerrarModal();
+  }
+
+  // ================================
+  //       🔥 EDITAR PROVEEDOR
+  // ================================
+  guardarEdicion() {
+    const idNum = Number(this.proveedorActual.id_prov); // <-- 🔥 IMPORTANTE
+
+    const index = this.proveedores.findIndex((p) => p.id_prov === idNum);
+
+    if (index !== -1) {
+      this.proveedores[index] = {
+        ...this.proveedorActual,
+        id_prov: idNum, // <-- 🔥 OBLIGATORIO PARA NO CAUSAR ERROR
+      };
+    }
+
+    this.cerrarModal();
+  }
+
+  eliminarProveedor(id: number) {
+    this.proveedores = this.proveedores.filter((p) => p.id_prov !== id);
+    this.menuAbierto = null;
   }
 }
