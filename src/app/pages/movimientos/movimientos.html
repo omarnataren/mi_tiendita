@@ -6,9 +6,7 @@
         <i class="fas fa-search"></i>
         <input type="text" placeholder="Buscar..." class="buscar" />
       </div>
-      <button class="agregar" (click)="abrirModal()">
-        <i class="fas fa-plus"></i> Agregar
-      </button>
+      <button class="agregar" (click)="abrirModal()"><i class="fas fa-plus"></i> Agregar</button>
     </div>
   </div>
 
@@ -24,23 +22,35 @@
         <th></th>
       </tr>
     </thead>
+
     <tbody>
       @for(movimiento of movimientos; track $index) {
-        <tr>
-          <td>{{ movimiento.movimientoId }}</td>
-          <td>{{ movimiento.productoId }}</td>
-          <td>
-            <span class="badge" [ngClass]="movimiento.tipo === 'Entrada' ? 'badge-entrada' : 'badge-salida'">
-              {{ movimiento.tipo }}
-            </span>
-          </td>
-          <td>{{ movimiento.cantidad }}</td>
-          <td>{{ movimiento.fecha }}</td>
-          <td>{{ movimiento.detalle }}</td>
-          <td class="acciones-column">
-            <div class="acciones-fila">⋮</div>
-          </td>
-        </tr>
+      <tr>
+        <td>{{ movimiento.movimientoId }}</td>
+        <td>{{ movimiento.productoId }}</td>
+        <td>
+          <span
+            class="badge"
+            [ngClass]="movimiento.tipo === 'Entrada' ? 'badge-entrada' : 'badge-salida'"
+          >
+            {{ movimiento.tipo }}
+          </span>
+        </td>
+        <td>{{ movimiento.cantidad }}</td>
+        <td>{{ movimiento.fecha }}</td>
+        <td>{{ movimiento.detalle }}</td>
+
+        <td class="acciones-column">
+          <div class="acciones-fila" (click)="abrirMenu($index)">⋮</div>
+
+          @if(menuAbierto === $index) {
+          <div class="menu-acciones">
+            <div class="menu-opcion" (click)="modificar(movimiento)">Modificar</div>
+            <div class="menu-opcion eliminar" (click)="eliminar(movimiento)">Eliminar</div>
+          </div>
+          }
+        </td>
+      </tr>
       }
     </tbody>
   </table>
@@ -55,49 +65,94 @@
   </div>
 </div>
 
-<!-- Modal para agregar movimiento -->
+<!-- ===================== MODAL AGREGAR ===================== -->
 @if(mostrarModal) {
-  <div class="modal-overlay" (click)="cerrarModal()">
-    <div class="modal-content" (click)="$event.stopPropagation()">
-      <button class="btn-cerrar" (click)="cerrarModal()">
-        <i class="fas fa-times"></i>
+<div class="modal-overlay" (click)="cerrarModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="btn-cerrar" (click)="cerrarModal()">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <h2 class="modal-titulo">NUEVO MOVIMIENTO</h2>
+
+    <form class="modal-form">
+      <div class="form-row">
+        <label>Producto ID</label>
+        <input type="text" class="input-modal" />
+      </div>
+
+      <div class="form-row">
+        <label>Tipo de movimiento</label>
+        <select class="input-modal">
+          <option value="Entrada">Entrada</option>
+          <option value="Salida">Salida</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label>Cantidad</label>
+        <input type="number" class="input-modal" />
+      </div>
+
+      <div class="form-row">
+        <label>Fecha</label>
+        <input type="date" class="input-modal" />
+      </div>
+
+      <div class="form-row">
+        <label>Detalle</label>
+        <input type="text" class="input-modal" />
+      </div>
+
+      <button type="button" class="btn-guardar" (click)="guardarMovimiento()">
+        GUARDAR MOVIMIENTO
       </button>
-
-      <h2 class="modal-titulo">NUEVO MOVIMIENTO</h2>
-
-      <form class="modal-form">
-        <div class="form-row">
-          <label>Producto ID</label>
-          <input type="text" class="input-modal" />
-        </div>
-
-        <div class="form-row">
-          <label>Tipo de movimiento</label>
-          <select class="input-modal">
-            <option value="Entrada">Entrada</option>
-            <option value="Salida">Salida</option>
-          </select>
-        </div>
-
-        <div class="form-row">
-          <label>Cantidad</label>
-          <input type="number" class="input-modal" />
-        </div>
-
-        <div class="form-row">
-          <label>Fecha</label>
-          <input type="date" class="input-modal" />
-        </div>
-
-        <div class="form-row">
-          <label>Detalle</label>
-          <input type="text" class="input-modal" />
-        </div>
-
-        <button type="button" class="btn-guardar" (click)="guardarMovimiento()">
-          GUARDAR MOVIMIENTO
-        </button>
-      </form>
-    </div>
+    </form>
   </div>
+</div>
+}
+
+<!-- ===================== MODAL EDITAR ===================== -->
+@if(mostrarModalEditar) {
+<div class="modal-overlay" (click)="mostrarModalEditar = false">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="btn-cerrar" (click)="mostrarModalEditar = false">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <h2 class="modal-titulo">EDITAR MOVIMIENTO</h2>
+
+    <form class="modal-form">
+      <div class="form-row">
+        <label>Producto ID</label>
+        <input type="text" class="input-modal" [(ngModel)]="movimientoActual.productoId" />
+      </div>
+
+      <div class="form-row">
+        <label>Tipo de movimiento</label>
+        <select class="input-modal" [(ngModel)]="movimientoActual.tipo">
+          <option value="Entrada">Entrada</option>
+          <option value="Salida">Salida</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label>Cantidad</label>
+        <input type="number" class="input-modal" [(ngModel)]="movimientoActual.cantidad" />
+      </div>
+
+      <div class="form-row">
+        <label>Fecha</label>
+        <input type="text" class="input-modal" [(ngModel)]="movimientoActual.fecha" />
+      </div>
+
+      <div class="form-row">
+        <label>Detalle</label>
+        <input type="text" class="input-modal" [(ngModel)]="movimientoActual.detalle" />
+      </div>
+
+      <button type="button" class="btn-guardar" (click)="guardarEdicion()">GUARDAR CAMBIOS</button>
+    </form>
+  </div>
+</div>
 }

@@ -16,8 +16,12 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .modal-content {
@@ -32,8 +36,14 @@
 }
 
 @keyframes slideIn {
-  from { transform: translateY(-30px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .btn-cerrar {
@@ -122,4 +132,55 @@
   background: #ff5e8d;
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(255, 123, 123, 0.3);
+}
+
+/* ----------- MENÚ DE ACCIONES (⋮) ----------- */
+.acciones-column {
+  position: relative;
+}
+
+.acciones-fila {
+  cursor: pointer;
+  font-size: 22px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  transition: 0.2s;
+}
+
+.acciones-fila:hover {
+  background: #ffe6ec;
+}
+
+/* Mini modal estilo tarjeta */
+.menu-acciones {
+  position: absolute;
+  right: 30px;
+  top: 10px;
+  background: white;
+  border-radius: 18px;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+  padding: 18px 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 999;
+  animation: fadeIn 0.2s ease;
+  width: 150px;
+}
+
+.menu-opcion {
+  cursor: pointer;
+  font-size: 1rem;
+  color: #333;
+  transition: 0.2s;
+}
+
+.menu-opcion:hover {
+  color: #ff7b7b;
+  transform: translateX(3px);
+}
+
+.menu-opcion.eliminar {
+  color: #ff4d6d;
+  font-weight: 600;
 }

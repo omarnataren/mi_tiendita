@@ -6,9 +6,7 @@
         <i class="fas fa-search"></i>
         <input type="text" placeholder="Buscar..." class="buscar" />
       </div>
-      <button class="agregar" (click)="abrirModal()">
-        <i class="fas fa-plus"></i> Agregar
-      </button>
+      <button class="agregar" (click)="abrirModal()"><i class="fas fa-plus"></i> Agregar</button>
     </div>
   </div>
 
@@ -26,68 +24,173 @@
         <th></th>
       </tr>
     </thead>
+
     <tbody>
       @for(producto of productos; track $index) {
-        <tr>
-          <td>{{ producto.id }}</td>
-          <td>{{ producto.nombre }}</td>
-          <td>{{ producto.descripcion }}</td>
-          <td>{{ producto.categoria }}</td>
-          <td>{{ producto.precioCompra }}</td>
-          <td>{{ producto.precioVenta }}</td>
-          <td>{{ producto.stock }}</td>
-          <td>{{ producto.proveedor }}</td>
-          <td class="acciones-column">
-            <div class="acciones-fila">⋮</div>
-          </td>
-        </tr>
+      <tr>
+        <td>{{ producto.id }}</td>
+        <td>{{ producto.nombre }}</td>
+        <td>{{ producto.descripcion }}</td>
+        <td>{{ producto.categoria }}</td>
+        <td>{{ producto.precioCompra }}</td>
+        <td>{{ producto.precioVenta }}</td>
+        <td>{{ producto.stock }}</td>
+        <td>{{ producto.proveedor }}</td>
+
+        <!-- ACCIONES -->
+        <td class="acciones-column">
+          <div class="acciones-fila" (click)="abrirMenu(producto.id)">⋮</div>
+
+          @if(menuAbierto === producto.id) {
+          <div class="menu-acciones">
+            <button (click)="abrirModalEditar(producto)">Modificar</button>
+            <button class="eliminar" (click)="abrirModalEliminar(producto)">Eliminar</button>
+          </div>
+          }
+        </td>
+      </tr>
       }
     </tbody>
   </table>
+</div>
 
-  <div class="paginacion">
-    <span>Rows per page: 8</span>
-    <span>1-8 of 1234</span>
-    <div class="flechas">
-      <button>‹</button>
-      <button>›</button>
+<!-- ========== MODAL AGREGAR PRODUCTO ========== -->
+@if(mostrarModal) {
+<div class="modal-overlay" (click)="cerrarModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="btn-cerrar" (click)="cerrarModal()"><i class="fas fa-times"></i></button>
+
+    <h2 class="modal-titulo">NUEVO PRODUCTO</h2>
+
+    <form class="modal-form">
+      <div class="form-row">
+        <label>Nombre del producto</label>
+        <input type="text" class="input-modal" />
+      </div>
+
+      <div class="form-row">
+        <label>Precio</label>
+        <input type="text" class="input-modal input-corto" />
+      </div>
+
+      <div class="form-row">
+        <label>Categoría</label>
+        <input type="text" class="input-modal" />
+      </div>
+
+      <button type="button" class="btn-guardar" (click)="guardarProducto()">
+        GUARDAR PRODUCTO
+      </button>
+    </form>
+  </div>
+</div>
+}
+
+<!-- ========== MODAL EDITAR PRODUCTO ========== -->
+@if(mostrarModalEditar) {
+<div class="modal-overlay" (click)="mostrarModalEditar = false">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="btn-cerrar" (click)="mostrarModalEditar = false">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <h2 class="modal-titulo">EDITAR PRODUCTO</h2>
+
+    <form class="modal-form">
+      <div class="form-row">
+        <label>Nombre</label>
+        <input
+          type="text"
+          class="input-modal"
+          [(ngModel)]="productoEditando.nombre"
+          name="nombre"
+        />
+      </div>
+
+      <div class="form-row">
+        <label>Descripción</label>
+        <input
+          type="text"
+          class="input-modal"
+          [(ngModel)]="productoEditando.descripcion"
+          name="descripcion"
+        />
+      </div>
+
+      <div class="form-row">
+        <label>Categoría</label>
+        <input
+          type="text"
+          class="input-modal"
+          [(ngModel)]="productoEditando.categoria"
+          name="categoria"
+        />
+      </div>
+
+      <div class="form-row">
+        <label>Precio Compra</label>
+        <input
+          type="text"
+          class="input-modal"
+          [(ngModel)]="productoEditando.precioCompra"
+          name="compra"
+        />
+      </div>
+
+      <div class="form-row">
+        <label>Precio Venta</label>
+        <input
+          type="text"
+          class="input-modal"
+          [(ngModel)]="productoEditando.precioVenta"
+          name="venta"
+        />
+      </div>
+
+      <div class="form-row">
+        <label>Stock</label>
+        <input type="text" class="input-modal" [(ngModel)]="productoEditando.stock" name="stock" />
+      </div>
+
+      <div class="form-row">
+        <label>Proveedor</label>
+        <input
+          type="text"
+          class="input-modal"
+          [(ngModel)]="productoEditando.proveedor"
+          name="proveedor"
+        />
+      </div>
+
+      <button type="button" class="btn-guardar" (click)="guardarCambios()">GUARDAR CAMBIOS</button>
+    </form>
+  </div>
+</div>
+}
+
+<!-- ========== MODAL ELIMINAR PRODUCTO ========== -->
+@if(mostrarModalEliminar) {
+<div class="modal-overlay" (click)="mostrarModalEliminar = false">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="btn-cerrar" (click)="mostrarModalEliminar = false">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <h2 class="modal-titulo">¿Eliminar producto?</h2>
+
+    <p style="text-align: center; font-size: 1.1rem">
+      Se eliminará <strong>{{ productoAEliminar.nombre }}</strong>
+    </p>
+
+    <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px">
+      <button class="btn-guardar" style="background: #bbb" (click)="mostrarModalEliminar = false">
+        Cancelar
+      </button>
+
+      <button class="btn-guardar" style="background: #ff4d4d" (click)="confirmarEliminar()">
+        Eliminar
+      </button>
     </div>
   </div>
 </div>
-
-<!-- Modal para agregar producto -->
-@if(mostrarModal) {
-  <div class="modal-overlay" (click)="cerrarModal()">
-    <div class="modal-content" (click)="$event.stopPropagation()">
-      <!-- Botón cerrar X -->
-      <button class="btn-cerrar" (click)="cerrarModal()">
-        <i class="fas fa-times"></i>
-      </button>
-
-      <!-- Título del modal -->
-      <h2 class="modal-titulo">NUEVO PRODUCTO</h2>
-
-      <!-- Formulario -->
-      <form class="modal-form">
-        <div class="form-row">
-          <label>Nombre del producto</label>
-          <input type="text" class="input-modal" />
-        </div>
-
-        <div class="form-row">
-          <label>Precio</label>
-          <input type="text" class="input-modal input-corto" />
-        </div>
-
-        <div class="form-row">
-          <label>Categoría</label>
-          <input type="text" class="input-modal" />
-        </div>
-
-        <button type="button" class="btn-guardar" (click)="guardarProducto()">
-          GUARDAR PRODUCTO
-        </button>
-      </form>
-    </div>
-  </div>
 }

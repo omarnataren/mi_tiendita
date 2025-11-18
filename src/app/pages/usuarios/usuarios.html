@@ -1,91 +1,137 @@
 <div class="contenedor-tabla">
   <div class="encabezado">
     <h3>Todos los Usuarios</h3>
+
     <div class="acciones">
       <div class="buscar-container">
         <i class="fas fa-search"></i>
         <input type="text" placeholder="Buscar..." class="buscar" />
       </div>
-      <button class="agregar" (click)="abrirModal()">
-        <i class="fas fa-plus"></i> Agregar
-      </button>
+
+      <button class="agregar" (click)="abrirModal()"><i class="fas fa-plus"></i> Agregar</button>
     </div>
   </div>
 
   <table class="tabla-generica">
     <thead>
       <tr>
-        <th>ID</th>
         <th>Nombre</th>
         <th>Email</th>
         <th>Rol</th>
         <th></th>
       </tr>
     </thead>
+
     <tbody>
       @for(usuario of usuarios; track $index) {
-        <tr>
-          <td>{{ usuario.id }}</td>
-          <td>{{ usuario.nombre }}</td>
-          <td>{{ usuario.email }}</td>
-          <td>{{ usuario.rol }}</td>
-          <td class="acciones-column">
-            <div class="acciones-fila">⋮</div>
-          </td>
-        </tr>
+      <tr>
+        <td>{{ usuario.nombre }}</td>
+        <td>{{ usuario.email }}</td>
+        <td>{{ usuario.rol }}</td>
+
+        <td class="acciones-column">
+          <div class="acciones-fila" (click)="abrirMenu(usuario.email)">⋮</div>
+
+          @if(menuAbierto === usuario.email) {
+          <div class="menu-acciones">
+            <button (click)="abrirModalEditar(usuario)">Modificar</button>
+            <button class="eliminar" (click)="abrirModalEliminar(usuario)">Eliminar</button>
+          </div>
+          }
+        </td>
+      </tr>
       }
     </tbody>
   </table>
+</div>
 
-  <div class="paginacion">
-    <span>Rows per page: 8</span>
-    <span>1-8 of 1234</span>
-    <div class="flechas">
-      <button>‹</button>
-      <button>›</button>
+<!-- ========== MODAL AGREGAR USUARIO ========== -->
+@if(mostrarModal) {
+<div class="modal-overlay" (click)="cerrarModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="btn-cerrar" (click)="cerrarModal()">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <h2 class="modal-titulo">NUEVO USUARIO</h2>
+
+    <form class="modal-form">
+      <div class="form-row">
+        <label>Nombre</label>
+        <input type="text" class="input-modal" />
+      </div>
+
+      <div class="form-row">
+        <label>Email</label>
+        <input type="email" class="input-modal" />
+      </div>
+
+      <div class="form-row">
+        <label>Rol</label>
+        <input type="text" class="input-modal" />
+      </div>
+
+      <button type="button" class="btn-guardar" (click)="guardarUsuario()">GUARDAR USUARIO</button>
+    </form>
+  </div>
+</div>
+}
+
+<!-- ========== MODAL EDITAR USUARIO ========== -->
+@if(mostrarModalEditar) {
+<div class="modal-overlay" (click)="mostrarModalEditar = false">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="btn-cerrar" (click)="mostrarModalEditar = false">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <h2 class="modal-titulo">EDITAR USUARIO</h2>
+
+    <form class="modal-form">
+      <div class="form-row">
+        <label>Nombre</label>
+        <input type="text" class="input-modal" [(ngModel)]="usuarioEditando.nombre" name="nombre" />
+      </div>
+
+      <div class="form-row">
+        <label>Email</label>
+        <input type="email" class="input-modal" [(ngModel)]="usuarioEditando.email" name="email" />
+      </div>
+
+      <div class="form-row">
+        <label>Rol</label>
+        <input type="text" class="input-modal" [(ngModel)]="usuarioEditando.rol" name="rol" />
+      </div>
+
+      <button type="button" class="btn-guardar" (click)="guardarCambios()">GUARDAR CAMBIOS</button>
+    </form>
+  </div>
+</div>
+}
+
+<!-- ========== MODAL ELIMINAR USUARIO ========== -->
+@if(mostrarModalEliminar) {
+<div class="modal-overlay" (click)="mostrarModalEliminar = false">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="btn-cerrar" (click)="mostrarModalEliminar = false">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <h2 class="modal-titulo">¿Eliminar usuario?</h2>
+
+    <p style="text-align: center; font-size: 1.1rem">
+      Se eliminará <strong>{{ usuarioAEliminar.nombre }}</strong>
+    </p>
+
+    <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px">
+      <button class="btn-guardar" style="background: #bbb" (click)="mostrarModalEliminar = false">
+        Cancelar
+      </button>
+
+      <button class="btn-guardar" style="background: #ff4d4d" (click)="confirmarEliminar()">
+        Eliminar
+      </button>
     </div>
   </div>
 </div>
-
-<!-- Modal para agregar usuario -->
-@if(mostrarModal) {
-  <div class="modal-overlay" (click)="cerrarModal()">
-    <div class="modal-content" (click)="$event.stopPropagation()">
-      <button class="btn-cerrar" (click)="cerrarModal()">
-        <i class="fas fa-times"></i>
-      </button>
-
-      <h2 class="modal-titulo">NUEVO USUARIO</h2>
-
-      <form class="modal-form">
-        <div class="form-row">
-          <label>Nombre completo</label>
-          <input type="text" class="input-modal" />
-        </div>
-
-        <div class="form-row">
-          <label>Email</label>
-          <input type="email" class="input-modal" />
-        </div>
-
-        <div class="form-row">
-          <label>Contraseña</label>
-          <input type="password" class="input-modal" />
-        </div>
-
-        <div class="form-row">
-          <label>Rol</label>
-          <select class="input-modal">
-            <option value="admin">Administrador</option>
-            <option value="vendedor">Vendedor</option>
-            <option value="almacen">Almacén</option>
-          </select>
-        </div>
-
-        <button type="button" class="btn-guardar" (click)="guardarUsuario()">
-          GUARDAR USUARIO
-        </button>
-      </form>
-    </div>
-  </div>
 }

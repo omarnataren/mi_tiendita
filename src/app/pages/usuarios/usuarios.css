@@ -1,6 +1,4 @@
-/* Estilos específicos para usuarios (los generales están en tablas.css) */
-
-/* ============= MODAL AGREGAR USUARIO ============= */
+/* ============= MODAL ============= */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -16,8 +14,12 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .modal-content {
@@ -32,10 +34,17 @@
 }
 
 @keyframes slideIn {
-  from { transform: translateY(-30px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
+/* Botón cerrar X */
 .btn-cerrar {
   position: absolute;
   top: 20px;
@@ -59,6 +68,7 @@
   color: #ff7b7b;
 }
 
+/* Título del modal */
 .modal-titulo {
   text-align: center;
   font-size: 1.8rem;
@@ -68,6 +78,7 @@
   letter-spacing: 1px;
 }
 
+/* Formulario */
 .modal-form {
   display: flex;
   flex-direction: column;
@@ -103,6 +114,11 @@
   box-shadow: 0 0 0 3px rgba(255, 123, 123, 0.1);
 }
 
+.input-corto {
+  max-width: 200px;
+}
+
+/* Botón guardar */
 .btn-guardar {
   margin-top: 20px;
   padding: 14px 40px;
@@ -122,4 +138,60 @@
   background: #ff5e8d;
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(255, 123, 123, 0.3);
+}
+
+/* ============= MENÚ FLOTANTE (⋮) ============= */
+
+.acciones-column {
+  position: relative;
+}
+
+.acciones-fila {
+  cursor: pointer;
+  font-size: 22px;
+  padding: 5px;
+}
+
+.menu-acciones {
+  position: absolute;
+  top: 25px;
+  right: 0;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  padding: 10px 0;
+  width: 140px;
+  z-index: 1000;
+  animation: aparecer 0.2s ease;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.menu-acciones button {
+  width: 100%;
+  padding: 10px 15px;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.menu-acciones button:hover {
+  background: #f3f3f3;
+}
+
+.menu-acciones .eliminar {
+  color: #ff5e5e;
+  font-weight: bold;
 }

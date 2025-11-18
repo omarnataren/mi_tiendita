@@ -15,6 +15,6 @@ export const routes: Routes = [
   { path: 'usuarios', component: Usuarios },
   { path: 'proveedores', component: Proveedores },
   { path: 'movimientos', component: Movimientos },
-  { path: 'productos', component: Productos },  
-  { path: '', redirectTo: 'login', pathMatch: 'full'},
+  { path: 'productos', component: Productos },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
 ];

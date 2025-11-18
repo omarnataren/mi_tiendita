@@ -1,21 +1,21 @@
 <div class="contenedor-tabla">
   <div class="encabezado">
     <h3>Todos los Proveedores</h3>
+
     <div class="acciones">
       <div class="buscar-container">
         <i class="fas fa-search"></i>
         <input type="text" placeholder="Buscar..." class="buscar" />
       </div>
-      <button class="agregar" (click)="abrirModal()">
-        <i class="fas fa-plus"></i> Agregar
-      </button>
+
+      <button class="agregar" (click)="abrirModal()"><i class="fas fa-plus"></i> Agregar</button>
     </div>
   </div>
 
   <table class="tabla-generica">
     <thead>
       <tr>
-        <th>ID</th>
+        <th>ID_PROV</th>
         <th>Nombre</th>
         <th>Contacto</th>
         <th>Teléfono</th>
@@ -24,84 +24,133 @@
         <th></th>
       </tr>
     </thead>
+
     <tbody>
+      @for (p of proveedores; track p.id_prov) {
       <tr>
-        <td>001</td>
-        <td>Coca-Cola</td>
-        <td>Alejandra Pérez</td>
-        <td>5008564</td>
-        <td>cocacola@gmail.com</td>
-        <td>Xoxocotlan #120</td>
+        <td>{{ p.id_prov }}</td>
+        <td>{{ p.nombre }}</td>
+        <td>{{ p.contacto }}</td>
+        <td>{{ p.telefono }}</td>
+        <td>{{ p.email }}</td>
+        <td>{{ p.direccion }}</td>
+
         <td class="acciones-column">
-          <div class="acciones-fila">⋮</div>
+          <div class="acciones-fila" (click)="abrirMenu(p.id_prov)">⋮</div>
+
+          @if (menuAbierto === p.id_prov) {
+          <div class="menu-acciones">
+            <button (click)="abrirModalEditar(p)">Modificar</button>
+            <button class="eliminar" (click)="eliminarProveedor(p.id_prov)">Eliminar</button>
+          </div>
+          }
         </td>
       </tr>
-      <tr>
-        <td>002</td>
-        <td>Agua Ciel</td>
-        <td>Clar</td>
-        <td>60087243</td>
-        <td>ciel@gmail.com</td>
-        <td>San Felipe #310</td>
-        <td class="acciones-column">
-          <div class="acciones-fila">⋮</div>
-        </td>
-      </tr>
-      <tr>
-        <td>003</td>
-        <td>Bimbo</td>
-        <td>Juan Sánchez</td>
-        <td>951452844</td>
-        <td>bimbo@gmail.com</td>
-        <td>San Sebastián #401</td>
-        <td class="acciones-column">
-          <div class="acciones-fila">⋮</div>
-        </td>
-      </tr>
+      }
     </tbody>
   </table>
 </div>
 
-<!-- Modal para agregar proveedor -->
-@if(mostrarModal) {
-  <div class="modal-overlay" (click)="cerrarModal()">
-    <div class="modal-content" (click)="$event.stopPropagation()">
-      <button class="btn-cerrar" (click)="cerrarModal()">
-        <i class="fas fa-times"></i>
-      </button>
+<!-- ===================== MODAL AGREGAR ===================== -->
+@if (mostrarModal) {
+<div class="modal-overlay" (click)="cerrarModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="btn-cerrar" (click)="cerrarModal()">
+      <i class="fas fa-times"></i>
+    </button>
 
-      <h2 class="modal-titulo">NUEVO PROVEEDOR</h2>
+    <h2 class="modal-titulo">NUEVO PROVEEDOR</h2>
 
-      <form class="modal-form">
-        <div class="form-row">
-          <label>Nombre</label>
-          <input type="text" class="input-modal" />
-        </div>
+    <form class="modal-form">
+      <div class="form-row">
+        <label>ID_PROV</label>
+        <input type="text" class="input-modal" [(ngModel)]="proveedorActual.id_prov" name="id1" />
+      </div>
 
-        <div class="form-row">
-          <label>Contacto</label>
-          <input type="text" class="input-modal" />
-        </div>
+      <div class="form-row">
+        <label>Nombre</label>
+        <input type="text" class="input-modal" [(ngModel)]="proveedorActual.nombre" name="nom1" />
+      </div>
 
-        <div class="form-row">
-          <label>Teléfono</label>
-          <input type="tel" class="input-modal" />
-        </div>
+      <div class="form-row">
+        <label>Contacto</label>
+        <input type="text" class="input-modal" [(ngModel)]="proveedorActual.contacto" name="con1" />
+      </div>
 
-        <div class="form-row">
-          <label>Email</label>
-          <input type="email" class="input-modal" />
-        </div>
+      <div class="form-row">
+        <label>Teléfono</label>
+        <input type="text" class="input-modal" [(ngModel)]="proveedorActual.telefono" name="tel1" />
+      </div>
 
-        <div class="form-row">
-          <label>Dirección</label>
-          <input type="text" class="input-modal" />
-        </div>
+      <div class="form-row">
+        <label>Email</label>
+        <input type="text" class="input-modal" [(ngModel)]="proveedorActual.email" name="ema1" />
+      </div>
 
-        <button type="button" class="btn-guardar" (click)="guardarProveedor()">
-          GUARDAR PROVEEDOR
-        </button>
-      </form>
-    </div>
+      <div class="form-row">
+        <label>Dirección</label>
+        <input
+          type="text"
+          class="input-modal"
+          [(ngModel)]="proveedorActual.direccion"
+          name="dir1"
+        />
+      </div>
+
+      <button type="button" class="btn-guardar" (click)="guardarProveedor()">GUARDAR</button>
+    </form>
   </div>
+</div>
+}
+
+<!-- ===================== MODAL EDITAR ===================== -->
+@if (mostrarModalEditar) {
+<div class="modal-overlay" (click)="cerrarModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="btn-cerrar" (click)="cerrarModal()">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <h2 class="modal-titulo">EDITAR PROVEEDOR</h2>
+
+    <form class="modal-form">
+      <div class="form-row">
+        <label>ID_PROV</label>
+        <input type="text" class="input-modal" [(ngModel)]="proveedorActual.id_prov" name="id2" />
+      </div>
+
+      <div class="form-row">
+        <label>Nombre</label>
+        <input type="text" class="input-modal" [(ngModel)]="proveedorActual.nombre" name="nom2" />
+      </div>
+
+      <div class="form-row">
+        <label>Contacto</label>
+        <input type="text" class="input-modal" [(ngModel)]="proveedorActual.contacto" name="con2" />
+      </div>
+
+      <div class="form-row">
+        <label>Teléfono</label>
+        <input type="text" class="input-modal" [(ngModel)]="proveedorActual.telefono" name="tel2" />
+      </div>
+
+      <div class="form-row">
+        <label>Email</label>
+        <input type="text" class="input-modal" [(ngModel)]="proveedorActual.email" name="ema2" />
+      </div>
+
+      <div class="form-row">
+        <label>Dirección</label>
+        <input
+          type="text"
+          class="input-modal"
+          [(ngModel)]="proveedorActual.direccion"
+          name="dir2"
+        />
+      </div>
+
+      <button type="button" class="btn-guardar" (click)="guardarEdicion()">GUARDAR CAMBIOS</button>
+    </form>
+  </div>
+</div>
 }

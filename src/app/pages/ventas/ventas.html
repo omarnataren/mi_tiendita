@@ -2,9 +2,7 @@
   <div class="encabezado">
     <h3>Venta Actual</h3>
     <div class="acciones">
-      <button class="agregar">
-        <i class="fas fa-plus"></i> Agregar productos
-      </button>
+      <button class="agregar"><i class="fas fa-plus"></i> Agregar productos</button>
     </div>
   </div>
 
@@ -20,23 +18,21 @@
     </thead>
     <tbody>
       @for(v of ventas; track $index) {
-        <tr>
-          <td>{{ v.id }}</td>
-          <td>{{ v.producto }}</td>
-          <td>{{ v.cantidad }}</td>
-          <td>${{ v.total }}</td>
-          <td class="acciones-column">
-            <div class="acciones-fila">⋮</div>
-          </td>
-        </tr>
+      <tr>
+        <td>{{ v.id }}</td>
+        <td>{{ v.producto }}</td>
+        <td>{{ v.cantidad }}</td>
+        <td>${{ v.total }}</td>
+        <td class="acciones-column">
+          <div class="acciones-fila">⋮</div>
+        </td>
+      </tr>
       }
     </tbody>
   </table>
 
   <div class="acciones-footer">
-    <button class="btn-limpiar">
-      <i class="fas fa-trash"></i> Limpiar
-    </button>
+    <button class="btn-limpiar"><i class="fas fa-trash"></i> Limpiar</button>
     <button class="btn-ticket" routerLink="/ticket">
       <i class="fas fa-receipt"></i> Generar Ticket
     </button>

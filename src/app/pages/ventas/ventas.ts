@@ -15,4 +15,18 @@ export class Ventas {
     { id: 4, producto: 'Galletas', cantidad: 20, total: '300' },
     { id: 5, producto: 'Chips jalapeño', cantidad: 20, total: '350' },
   ];
+  mostrarModal = false;
+  menuAbierto: string | null = null;
+
+  abrirModal() {
+    this.mostrarModal = true;
+  }
+
+  cerrarModal() {
+    this.mostrarModal = false;
+  }
+
+  abrirMenu(id: string) {
+    this.menuAbierto = this.menuAbierto === id ? null : id;
+  }
 }
