@@ -10,14 +10,14 @@ import { FormsModule } from '@angular/forms';
 export class Usuarios {
   mostrarModal = false;
 
-  menuAbierto: string | null = null;
+  menuAbierto: number | null = null;
 
   usuarios = [
-    { nombre: 'Juan Pérez', email: 'juan@gmail.com', rol: 'Administrador' },
-    { nombre: 'Ana López', email: 'ana@gmail.com', rol: 'Empleado' },
-    { nombre: 'Luis Martínez', email: 'luis@gmail.com', rol: 'Supervisor' },
-    { nombre: 'Karla Torres', email: 'karla@gmail.com', rol: 'Recepción' },
-    { nombre: 'Pedro Gómez', email: 'pedro@gmail.com', rol: 'Almacén' },
+    { id: 1, nombre: 'Juan Pérez', email: 'juan@gmail.com', rol: 'Administrador' },
+    { id: 2,nombre: 'Ana López', email: 'ana@gmail.com', rol: 'Empleado' },
+    { id: 3,nombre: 'Luis Martínez', email: 'luis@gmail.com', rol: 'Supervisor' },
+    { id: 4,nombre: 'Karla Torres', email: 'karla@gmail.com', rol: 'Recepción' },
+    { id: 5,nombre: 'Pedro Gómez', email: 'pedro@gmail.com', rol: 'Almacén' },
   ];
 
   // =========================
@@ -43,8 +43,8 @@ export class Usuarios {
     this.cerrarModal();
   }
 
-  abrirMenu(email: string) {
-    this.menuAbierto = email;
+  abrirMenu(id: number) {
+    this.menuAbierto = id;
   }
 
   cerrarMenu() {

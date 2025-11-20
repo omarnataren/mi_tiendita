@@ -41,13 +41,18 @@
         <td>{{ movimiento.detalle }}</td>
 
         <td class="acciones-column">
-          <div class="acciones-fila" (click)="abrirMenu($index)">⋮</div>
+          <div class="acciones-fila" (click)="abrirMenu($index, $event)">⋮</div>
 
+          <!-- Menú de opciones -->
           @if(menuAbierto === $index) {
-          <div class="menu-acciones">
-            <div class="menu-opcion" (click)="modificar(movimiento)">Modificar</div>
-            <div class="menu-opcion eliminar" (click)="eliminar(movimiento)">Eliminar</div>
-          </div>
+            <div class="menu-opciones" [style.top]="menuPosicion.top" [style.left]="menuPosicion.left">
+              <div class="menu-item modificar" (click)="modificar(movimiento)">
+                <i class="fas fa-edit"></i> Modificar
+              </div>
+              <div class="menu-item eliminar" (click)="eliminar(movimiento.movimientoId)">
+                <i class="fas fa-trash"></i> Eliminar
+              </div>
+            </div>
           }
         </td>
       </tr>

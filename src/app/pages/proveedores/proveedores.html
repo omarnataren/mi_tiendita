@@ -26,24 +26,27 @@
     </thead>
 
     <tbody>
-      @for (p of proveedores; track p.id_prov) {
+      @for (proveedor of proveedores; track proveedor.id_prov) {
       <tr>
-        <td>{{ p.id_prov }}</td>
-        <td>{{ p.nombre }}</td>
-        <td>{{ p.contacto }}</td>
-        <td>{{ p.telefono }}</td>
-        <td>{{ p.email }}</td>
-        <td>{{ p.direccion }}</td>
-
+        <td>{{ proveedor.id_prov }}</td>
+        <td>{{ proveedor.nombre }}</td>
+        <td>{{ proveedor.contacto }}</td>
+        <td>{{ proveedor.telefono }}</td>
+        <td>{{ proveedor.email }}</td>
+        <td>{{ proveedor.direccion }}</td>
         <td class="acciones-column">
-          <div class="acciones-fila" (click)="abrirMenu(p.id_prov)">⋮</div>
+          <div class="acciones-fila" (click)="abrirMenu(proveedor.id_prov)">⋮</div>
 
-          @if (menuAbierto === p.id_prov) {
-          <div class="menu-acciones">
-            <button (click)="abrirModalEditar(p)">Modificar</button>
-            <button class="eliminar" (click)="eliminarProveedor(p.id_prov)">Eliminar</button>
-          </div>
-          }
+          @if(menuAbierto === proveedor.id_prov) {
+                <div class="menu-opciones" >
+                  <div class="menu-item modificar" (click)="abrirModalEditar(proveedor)">
+                    <i class="fas fa-edit"></i> Modificar
+                  </div>
+                  <div class="menu-item eliminar" (click)="abrirModalEliminar(proveedor)">
+                    <i class="fas fa-trash"></i> Eliminar
+                  </div>
+                </div>
+              }
         </td>
       </tr>
       }
@@ -151,6 +154,33 @@
 
       <button type="button" class="btn-guardar" (click)="guardarEdicion()">GUARDAR CAMBIOS</button>
     </form>
+  </div>
+</div>
+}
+
+<!-- ========== MODAL ELIMINAR USUARIO ========== -->
+@if(mostrarModalEliminar) {
+<div class="modal-overlay" (click)="mostrarModalEliminar = false">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <button class="btn-cerrar" (click)="mostrarModalEliminar = false">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <h2 class="modal-titulo">¿Eliminar proveedor?</h2>
+
+    <p style="text-align: center; font-size: 1.1rem">
+      Se eliminará <strong>{{ proveedorAEliminar.nombre }}</strong>
+    </p>
+
+    <div style="display: flex; justify-content: center; gap: 20px; margin-top: 20px">
+      <button class="btn-guardar" style="background: #bbb" (click)="mostrarModalEliminar = false">
+        Cancelar
+      </button>
+
+      <button class="btn-guardar" style="background: #ff4d4d" (click)="confirmarEliminar()">
+        Eliminar
+      </button>
+    </div>
   </div>
 </div>
 }

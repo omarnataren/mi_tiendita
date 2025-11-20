@@ -42,11 +42,15 @@
           <div class="acciones-fila" (click)="abrirMenu(producto.id)">⋮</div>
 
           @if(menuAbierto === producto.id) {
-          <div class="menu-acciones">
-            <button (click)="abrirModalEditar(producto)">Modificar</button>
-            <button class="eliminar" (click)="abrirModalEliminar(producto)">Eliminar</button>
-          </div>
-          }
+                <div class="menu-opciones" >
+                  <div class="menu-item modificar" (click)="abrirModalEditar(producto)">
+                    <i class="fas fa-edit"></i> Modificar
+                  </div>
+                  <div class="menu-item eliminar" (click)="abrirModalEliminar(producto)">
+                    <i class="fas fa-trash"></i> Eliminar
+                  </div>
+                </div>
+              }
         </td>
       </tr>
       }

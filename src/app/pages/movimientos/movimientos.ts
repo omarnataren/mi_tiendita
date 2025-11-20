@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -91,6 +91,13 @@ export class Movimientos {
   mostrarModal = false;
   mostrarModalEditar = false;
   menuAbierto: number | null = null;
+  menuPosicion = { top: '0px', left: '0px' };
+
+  // Cerrar menú al hacer clic fuera
+  @HostListener('document:click', ['$event'])
+  cerrarMenuClick(event: MouseEvent) {
+    this.menuAbierto = null;
+  }
 
   // ================= MÉTODOS =================
 
@@ -111,8 +118,25 @@ export class Movimientos {
     this.mostrarModalEditar = false;
   }
 
-  abrirMenu(index: number) {
-    this.menuAbierto = this.menuAbierto === index ? null : index;
+  abrirMenu(index: number, event?: MouseEvent) {
+    if (event) {
+      event.stopPropagation();
+    }
+    
+    if (this.menuAbierto === index) {
+      this.menuAbierto = null;
+    } else {
+      this.menuAbierto = index;
+      
+      // Calcular posición del menú
+      if (event) {
+        const rect = (event.target as HTMLElement).getBoundingClientRect();
+        this.menuPosicion = {
+          top: `${rect.bottom + 5}px`,
+          left: `${rect.left - 120}px`
+        };
+      }
+    }
   }
 
   modificar(movimiento: any) {
@@ -121,8 +145,10 @@ export class Movimientos {
     this.menuAbierto = null;
   }
 
-  eliminar(movimiento: any) {
-    this.movimientos = this.movimientos.filter((m) => m.movimientoId !== movimiento.movimientoId);
+  eliminar(movimientoId: number) {
+    if (confirm('¿Estás seguro de eliminar este movimiento?')) {
+      this.movimientos = this.movimientos.filter((m) => m.movimientoId !== movimientoId);
+    }
     this.menuAbierto = null;
   }
 

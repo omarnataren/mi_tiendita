@@ -40,11 +40,19 @@ export class Proveedores {
 
   mostrarModal = false;
   mostrarModalEditar = false;
+  mostrarModalEliminar = false;
+
+  proveedorEditando: any = null;
+  proveedorAEliminar: any = null;
 
   menuAbierto: number | null = null;
 
   abrirMenu(id: number) {
     this.menuAbierto = this.menuAbierto === id ? null : id;
+  }
+
+  cerrarMenu() {
+    this.menuAbierto = null;
   }
 
   abrirModal() {
@@ -101,8 +109,14 @@ export class Proveedores {
     this.cerrarModal();
   }
 
-  eliminarProveedor(id: number) {
-    this.proveedores = this.proveedores.filter((p) => p.id_prov !== id);
-    this.menuAbierto = null;
+  abrirModalEliminar(proveedor: any) {
+    this.proveedorAEliminar = proveedor;
+    this.mostrarModalEliminar = true;
+    this.cerrarMenu();
+  }
+
+  confirmarEliminar() {
+    this.proveedores = this.proveedores.filter((p) => p.id_prov !== this.proveedorAEliminar.id_prov);
+    this.mostrarModalEliminar = false;
   }
 }

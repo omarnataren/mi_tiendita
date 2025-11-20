@@ -15,6 +15,7 @@
   <table class="tabla-generica">
     <thead>
       <tr>
+        <th>ID</th>
         <th>Nombre</th>
         <th>Email</th>
         <th>Rol</th>
@@ -23,21 +24,26 @@
     </thead>
 
     <tbody>
-      @for(usuario of usuarios; track $index) {
+      @for(usuario of usuarios; track usuario.id) {
       <tr>
+        <td>{{ usuario.id }}</td>
         <td>{{ usuario.nombre }}</td>
         <td>{{ usuario.email }}</td>
         <td>{{ usuario.rol }}</td>
 
         <td class="acciones-column">
-          <div class="acciones-fila" (click)="abrirMenu(usuario.email)">⋮</div>
+          <div class="acciones-fila" (click)="abrirMenu(usuario.id)">⋮</div>
 
-          @if(menuAbierto === usuario.email) {
-          <div class="menu-acciones">
-            <button (click)="abrirModalEditar(usuario)">Modificar</button>
-            <button class="eliminar" (click)="abrirModalEliminar(usuario)">Eliminar</button>
-          </div>
-          }
+          @if(menuAbierto === usuario.id) {
+                <div class="menu-opciones" >
+                  <div class="menu-item modificar" (click)="abrirModalEditar(usuario)">
+                    <i class="fas fa-edit"></i> Modificar
+                  </div>
+                  <div class="menu-item eliminar" (click)="abrirModalEliminar(usuario)">
+                    <i class="fas fa-trash"></i> Eliminar
+                  </div>
+                </div>
+              }
         </td>
       </tr>
       }
