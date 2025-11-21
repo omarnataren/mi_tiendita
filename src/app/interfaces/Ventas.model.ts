@@ -1,7 +1,7 @@
 import { Producto } from './Productos.models';
 export interface Venta {
-  venta_id?: number;
-  fecha_venta?: Date | string;
+  venta_id: number;
+  fecha_venta: Date ;
   total: number;
   cliente_id?: number;
   detalles?: DetalleVenta[];

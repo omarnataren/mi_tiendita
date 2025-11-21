@@ -1,16 +1,46 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms'; // 👈 Importar esto
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule} from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-login',
-  imports: [FormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
 export class Login {
-  constructor(private router: Router) {}
+  private authService = inject(AuthService);
+  private fb = inject(FormBuilder);
+  private router = inject(Router);
+  loginForm: FormGroup;
+  constructor() {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]]
+    });
+  }
+
+  get email() {
+    return this.loginForm.get('correo');
+  }
+
+  get password() {
+    return this.loginForm.get('password');
+  }
+
   onLogin(){
-    this.router.navigate(['/ventas'])
+
+    
+
+    this.authService.login(this.loginForm.value).subscribe({
+      next: (response) => {
+        console.log('Login exitoso', response);
+        this.router.navigate(['/ventas'])
+      },
+      error: (error) => {
+        console.error('Error de login', error);
+      }
+    });
+    
   }
 }
