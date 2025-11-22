@@ -1,10 +1,15 @@
 export interface Usuario {
-  usuario_id?: number;
+  usuario_id: number;
   nombre: string;
   email: string;
-  password?: string;
-  rol: RolUsuario;
+  rol: RolUsuario | null;
 }
+
+export type UsuarioPost = Omit<Usuario, 'usuario_id'> & {
+  password: string;
+};
+
+export type UsuarioEdicion = Omit<Usuario, 'usuario_id'>;
 
 export enum RolUsuario {
   ADMIN = 'admin',
