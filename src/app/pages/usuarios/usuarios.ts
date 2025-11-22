@@ -1,84 +1,190 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-
+import { Component, inject } from '@angular/core';
+import { RolUsuario, Usuario, UsuarioEdicion, UsuarioPost, } from '../../interfaces/Usuarios.model';
+import { UserService } from '../../services/usuario.service';
+import { FormGroup, FormBuilder, Validators, ReactiveFormsModule} from '@angular/forms';
+import { merge, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 @Component({
   selector: 'app-usuarios',
-  imports: [FormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './usuarios.html',
   styleUrl: './usuarios.css',
 })
 export class Usuarios {
-  mostrarModal = false;
 
-  menuAbierto: number | null = null;
+  private userService = inject(UserService);
+  private fb = inject(FormBuilder);
 
-  usuarios = [
-    { id: 1, nombre: 'Juan Pérez', email: 'juan@gmail.com', rol: 'Administrador' },
-    { id: 2,nombre: 'Ana López', email: 'ana@gmail.com', rol: 'Empleado' },
-    { id: 3,nombre: 'Luis Martínez', email: 'luis@gmail.com', rol: 'Supervisor' },
-    { id: 4,nombre: 'Karla Torres', email: 'karla@gmail.com', rol: 'Recepción' },
-    { id: 5,nombre: 'Pedro Gómez', email: 'pedro@gmail.com', rol: 'Almacén' },
-  ];
-
-  // =========================
-  // MODALES
-  // =========================
-
+  mostrarModalCrear = false;
   mostrarModalEditar = false;
   mostrarModalEliminar = false;
+  menuAbierto: number | null = null;
 
-  usuarioEditando: any = null;
-  usuarioAEliminar: any = null;
+  usuarios : Usuario[] = [];
+  usuarioIdSeleccionado: number | null = null;
+  usuarioSeleccionado: Usuario | null = null;
 
-  abrirModal() {
-    this.mostrarModal = true;
+  readonly postForm: FormGroup;
+  readonly editForm: FormGroup;
+
+  searchCtrl = this.fb.control('', { nonNullable: true });
+  
+  constructor() {
+    this.postForm =  this.fb.group({
+      nombre: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required]],
+      rol: [null as RolUsuario | null, [Validators.required]]
+    });
+
+    this.editForm =  this.fb.group({
+      nombre: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      rol: [null as RolUsuario | null, [Validators.required]]
+    });
   }
 
-  cerrarModal() {
-    this.mostrarModal = false;
+  ngOnInit(): void {
+    this.getUsuarios();
+    const value$ = this.searchCtrl.valueChanges.pipe(
+      map(v => v.trim()),
+      distinctUntilChanged()
+    );
+    const every3chars$ = value$.pipe(
+      filter(v => v.length > 0 && v.length % 3 === 0)
+    );
+    const pause$ = value$.pipe(
+      debounceTime(500)
+    );
+
+    merge(every3chars$, pause$).pipe(
+      distinctUntilChanged(),
+      switchMap(q => {
+        if (!q) return this.userService.getUsuarios();
+        return  this.userService.searchUsuarios(q).pipe(
+          catchError(err => {
+            console.error('Error al buscar usuarios', err);
+            return of([])
+          })
+        )
+      })
+    ).subscribe(data => {
+      this.usuarios = data;
+    });
   }
 
-  guardarUsuario() {
-    console.log('Guardando usuario...');
-    this.cerrarModal();
+
+  // LISTAR
+  getUsuarios(): void {
+    this.userService.getUsuarios().subscribe({
+        next: (data) => {
+          console.log(data);
+          this.usuarios = data;
+        },
+        error: (e)=> console.error(e)
+    });
   }
 
-  abrirMenu(id: number) {
-    this.menuAbierto = id;
+  //MENU
+  abrirMenu(usuario_id: number): void {
+    this.menuAbierto = usuario_id;
   }
 
-  cerrarMenu() {
+  cerrarMenu(): void {
     this.menuAbierto = null;
   }
 
-  // =========================
+  // Crear
+  abrirModalCrear(): void {
+    this.postForm.reset({ rol: null });
+    this.mostrarModalCrear = true;
+  }
+
+  cerrarModalCrear(): void {
+    this.mostrarModalCrear = false;
+  }
+
+  guardarUsuario(): void {  
+    if (this.postForm.invalid) {
+      this.postForm.markAllAsTouched();
+      return;
+    }
+    const payload = this.postForm.value as UsuarioPost;
+    this.userService.postUsuario(payload).subscribe({
+      next: () => {
+        this.cerrarModalCrear();  
+        this.getUsuarios();
+      },
+      error: err => {
+        console.error('Error creando usuario', err);
+      }
+    });
+  }
+
   // EDITAR
-  // =========================
-  abrirModalEditar(usuario: any) {
-    this.usuarioEditando = { ...usuario };
+  abrirModalEditar(usuario: Usuario): void {
+    this.usuarioIdSeleccionado = usuario.usuario_id;
+    this.editForm.reset({
+      nombre: usuario.nombre,
+      email: usuario.email,
+      rol: usuario.rol,
+    });
     this.mostrarModalEditar = true;
     this.cerrarMenu();
   }
 
-  guardarCambios() {
-    const index = this.usuarios.findIndex((u) => u.email === this.usuarioEditando.email);
-    if (index !== -1) {
-      this.usuarios[index] = { ...this.usuarioEditando };
-    }
+  cerrarModalEditar(): void {
     this.mostrarModalEditar = false;
+    this.usuarioIdSeleccionado = null;
+  }
+
+  guardarCambios(): void {
+    if (this.editForm.invalid || this.usuarioIdSeleccionado == null) {
+      this.editForm.markAllAsTouched();
+      return;
+    }
+
+    const payload = this.editForm.value as UsuarioEdicion;
+
+    this.userService.putUsuario(this.usuarioIdSeleccionado, payload).subscribe({
+        next: () => {
+          this.cerrarModalEditar();
+        this.getUsuarios();
+        },
+        error: (e) => {
+          console.error('Error al actualizar usuario:', e);
+        }
+    });
   }
 
   // =========================
   // ELIMINAR
   // =========================
-  abrirModalEliminar(usuario: any) {
-    this.usuarioAEliminar = usuario;
+  abrirModalEliminar(usuario: Usuario): void {
+    this.usuarioSeleccionado = usuario;
+    this.usuarioIdSeleccionado = usuario.usuario_id;
     this.mostrarModalEliminar = true;
     this.cerrarMenu();
   }
-
-  confirmarEliminar() {
-    this.usuarios = this.usuarios.filter((u) => u.email !== this.usuarioAEliminar.email);
+  
+  cerrarModalEliminar(): void {
     this.mostrarModalEliminar = false;
+    this.usuarioIdSeleccionado = null;
+    this.usuarioSeleccionado = null;
   }
+
+  confirmarEliminar(): void {
+    if (this.usuarioIdSeleccionado == null) return;
+
+    this.userService.deleteUsuario(this.usuarioIdSeleccionado).subscribe({
+      next: () => {
+        this.cerrarModalEliminar();
+        this.getUsuarios();
+      },
+      error: (e) => console.error('Error al eliminar usuario', e),
+    });
+  }
+
+
 }
